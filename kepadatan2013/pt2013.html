@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SIG Kepadatan Penduduk By Ayulest</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900,900i" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+  </head>
+  <body>
+    
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">Ayulest.</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	        	<li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+	        	<li class="nav-item"><a href="../blog.html" class="nav-link">Peta Tematik</a></li>
+	        	<li class="nav-item"><a href="../about.html" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="../contact.html" class="nav-link">Contact</a></li>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->
+    
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-2 bread">Kepadatan Penduduk Tahun 2013</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="#">Peta Tematik <i class="ion-ios-arrow-forward"></i></a></span> <span>Kota Semarang <i class="ion-ios-arrow-forward"></i></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <div id="map">
+   </div> 
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/kepadatanpddk2013_0.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-7.10661976946,110.263472692],[-6.86260505644,110.717628478]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function pop_kepadatanpddk2013_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>kecamatan</strong><br />' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>luas_wil</strong><br />' + (feature.properties['luas_wil'] !== null ? Autolinker.link(String(feature.properties['luas_wil'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>penduduk</strong><br />' + (feature.properties['penduduk'] !== null ? Autolinker.link(String(feature.properties['penduduk'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>kepadatan</strong><br />' + (feature.properties['kepadatan'] !== null ? Autolinker.link(String(feature.properties['kepadatan'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kepadatanpddk2013_0_0(feature) {
+            if (feature.properties['kepadatan'] >= 984.000000 && feature.properties['kepadatan'] <= 3563.600000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 3563.600000 && feature.properties['kepadatan'] <= 6143.200000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,204,138,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 6143.200000 && feature.properties['kepadatan'] <= 8722.800000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,141,89,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 8722.800000 && feature.properties['kepadatan'] <= 11302.400000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,74,51,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 11302.400000 && feature.properties['kepadatan'] <= 13882.000000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_kepadatanpddk2013_0');
+        map.getPane('pane_kepadatanpddk2013_0').style.zIndex = 400;
+        map.getPane('pane_kepadatanpddk2013_0').style['mix-blend-mode'] = 'normal';
+        var layer_kepadatanpddk2013_0 = new L.geoJson(json_kepadatanpddk2013_0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_kepadatanpddk2013_0',
+            onEachFeature: pop_kepadatanpddk2013_0,
+            style: style_kepadatanpddk2013_0_0,
+        });
+        bounds_group.addLayer(layer_kepadatanpddk2013_0);
+        map.addLayer(layer_kepadatanpddk2013_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'kepadatanpddk2013<br /><table><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_0_TidakPadat0.png" /></td><td>Tidak Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_0_KurangPadat1.png" /></td><td>Kurang Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_0_CukupPadat2.png" /></td><td>Cukup Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_0_Padat3.png" /></td><td>Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_0_SangatPadat4.png" /></td><td>Sangat Padat</td></tr></table>': layer_kepadatanpddk2013_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_kepadatanpddk2013_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_kepadatanpddk2013_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_kepadatanpddk2013_0]);
+        map.on("zoomend", function(){
+            resetLabels([layer_kepadatanpddk2013_0]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_kepadatanpddk2013_0]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_kepadatanpddk2013_0]);
+        });
+        </script>
+		</section>
+
+   
+       <footer class="ftco-footer ftco-footer-2 ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Aylest Site <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Ayu Lestari</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/google-map.js"></script>
+  <script src="js/main.js"></script>
+    
+  </body>
+</html>

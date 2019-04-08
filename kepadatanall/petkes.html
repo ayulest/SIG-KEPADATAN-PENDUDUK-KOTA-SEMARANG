@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SIG Kepadatan Penduduk By Ayulest</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900,900i" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+  </head>
+  <body>
+    
+      <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">Ayulest.</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+          </button>
+
+          <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="../blog.html" class="nav-link">Peta Tematik</a></li>
+                <li class="nav-item"><a href="../about.html" class="nav-link">About</a></li>
+              <li class="nav-item"><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <!-- END nav -->
+    
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-2 bread">Kepadatan Penduduk Tahun 2012-2016</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="#">Peta Tematik <i class="ion-ios-arrow-forward"></i></a></span> <span>Kota Semarang <i class="ion-ios-arrow-forward"></i></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/kepadatanpddk2016_0.js"></script>
+        <script src="data/kepadatanpddk2015_1.js"></script>
+        <script src="data/kepadatanpddk2014_2.js"></script>
+        <script src="data/kepadatanpddk2013_3.js"></script>
+        <script src="data/kepadatanpddk2012_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-7.10661976946,110.263472692],[-6.86260505644,110.717628478]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function pop_kepadatanpddk2016_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">kecamatan</th>\
+                        <td>' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">luas_wil</th>\
+                        <td>' + (feature.properties['luas_wil'] !== null ? Autolinker.link(String(feature.properties['luas_wil'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">penduduk</th>\
+                        <td>' + (feature.properties['penduduk'] !== null ? Autolinker.link(String(feature.properties['penduduk'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kepadatan</th>\
+                        <td>' + (feature.properties['kepadatan'] !== null ? Autolinker.link(String(feature.properties['kepadatan'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kepadatanpddk2016_0_0(feature) {
+            if (feature.properties['kepadatan'] >= 1008.000000 && feature.properties['kepadatan'] <= 3477.200000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2016_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 3477.200000 && feature.properties['kepadatan'] <= 5946.400000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2016_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,204,138,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 5946.400000 && feature.properties['kepadatan'] <= 8415.600000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2016_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,141,89,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 8415.600000 && feature.properties['kepadatan'] <= 10884.800000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2016_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,74,51,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 10884.800000 && feature.properties['kepadatan'] <= 13354.000000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2016_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_kepadatanpddk2016_0');
+        map.getPane('pane_kepadatanpddk2016_0').style.zIndex = 400;
+        map.getPane('pane_kepadatanpddk2016_0').style['mix-blend-mode'] = 'normal';
+        var layer_kepadatanpddk2016_0 = new L.geoJson(json_kepadatanpddk2016_0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_kepadatanpddk2016_0',
+            onEachFeature: pop_kepadatanpddk2016_0,
+            style: style_kepadatanpddk2016_0_0,
+        });
+        bounds_group.addLayer(layer_kepadatanpddk2016_0);
+        map.addLayer(layer_kepadatanpddk2016_0);
+        function pop_kepadatanpddk2015_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">kecamatan</th>\
+                        <td>' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">luas_wil</th>\
+                        <td>' + (feature.properties['luas_wil'] !== null ? Autolinker.link(String(feature.properties['luas_wil'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">penduduk</th>\
+                        <td>' + (feature.properties['penduduk'] !== null ? Autolinker.link(String(feature.properties['penduduk'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kepadatan</th>\
+                        <td>' + (feature.properties['kepadatan'] !== null ? Autolinker.link(String(feature.properties['kepadatan'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kepadatanpddk2015_1_0(feature) {
+            if (feature.properties['kepadatan'] >= 1005.480000 && feature.properties['kepadatan'] <= 3490.618000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2015_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 3490.618000 && feature.properties['kepadatan'] <= 5975.756000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2015_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,204,138,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 5975.756000 && feature.properties['kepadatan'] <= 8460.894000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2015_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,141,89,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 8460.894000 && feature.properties['kepadatan'] <= 10946.032000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2015_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,74,51,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 10946.032000 && feature.properties['kepadatan'] <= 13431.170000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2015_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_kepadatanpddk2015_1');
+        map.getPane('pane_kepadatanpddk2015_1').style.zIndex = 401;
+        map.getPane('pane_kepadatanpddk2015_1').style['mix-blend-mode'] = 'normal';
+        var layer_kepadatanpddk2015_1 = new L.geoJson(json_kepadatanpddk2015_1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_kepadatanpddk2015_1',
+            onEachFeature: pop_kepadatanpddk2015_1,
+            style: style_kepadatanpddk2015_1_0,
+        });
+        bounds_group.addLayer(layer_kepadatanpddk2015_1);
+        map.addLayer(layer_kepadatanpddk2015_1);
+        function pop_kepadatanpddk2014_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">kecamatan</th>\
+                        <td>' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">luas_wil</th>\
+                        <td>' + (feature.properties['luas_wil'] !== null ? Autolinker.link(String(feature.properties['luas_wil'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">penduduk</th>\
+                        <td>' + (feature.properties['penduduk'] !== null ? Autolinker.link(String(feature.properties['penduduk'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kepadatan</th>\
+                        <td>' + (feature.properties['kepadatan'] !== null ? Autolinker.link(String(feature.properties['kepadatan'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kepadatanpddk2014_2_0(feature) {
+            if (feature.properties['kepadatan'] >= 972.000000 && feature.properties['kepadatan'] <= 3575.600000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2014_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 3575.600000 && feature.properties['kepadatan'] <= 6179.200000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2014_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,204,138,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 6179.200000 && feature.properties['kepadatan'] <= 8782.800000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2014_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,141,89,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 8782.800000 && feature.properties['kepadatan'] <= 11386.400000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2014_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,74,51,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 11386.400000 && feature.properties['kepadatan'] <= 13990.000000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2014_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_kepadatanpddk2014_2');
+        map.getPane('pane_kepadatanpddk2014_2').style.zIndex = 402;
+        map.getPane('pane_kepadatanpddk2014_2').style['mix-blend-mode'] = 'normal';
+        var layer_kepadatanpddk2014_2 = new L.geoJson(json_kepadatanpddk2014_2, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_kepadatanpddk2014_2',
+            onEachFeature: pop_kepadatanpddk2014_2,
+            style: style_kepadatanpddk2014_2_0,
+        });
+        bounds_group.addLayer(layer_kepadatanpddk2014_2);
+        map.addLayer(layer_kepadatanpddk2014_2);
+        function pop_kepadatanpddk2013_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">kecamatan</th>\
+                        <td>' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">luas_wil</th>\
+                        <td>' + (feature.properties['luas_wil'] !== null ? Autolinker.link(String(feature.properties['luas_wil'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">penduduk</th>\
+                        <td>' + (feature.properties['penduduk'] !== null ? Autolinker.link(String(feature.properties['penduduk'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kepadatan</th>\
+                        <td>' + (feature.properties['kepadatan'] !== null ? Autolinker.link(String(feature.properties['kepadatan'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kepadatanpddk2013_3_0(feature) {
+            if (feature.properties['kepadatan'] >= 984.000000 && feature.properties['kepadatan'] <= 3563.600000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 3563.600000 && feature.properties['kepadatan'] <= 6143.200000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,204,138,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 6143.200000 && feature.properties['kepadatan'] <= 8722.800000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,141,89,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 8722.800000 && feature.properties['kepadatan'] <= 11302.400000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,74,51,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 11302.400000 && feature.properties['kepadatan'] <= 13882.000000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2013_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_kepadatanpddk2013_3');
+        map.getPane('pane_kepadatanpddk2013_3').style.zIndex = 403;
+        map.getPane('pane_kepadatanpddk2013_3').style['mix-blend-mode'] = 'normal';
+        var layer_kepadatanpddk2013_3 = new L.geoJson(json_kepadatanpddk2013_3, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_kepadatanpddk2013_3',
+            onEachFeature: pop_kepadatanpddk2013_3,
+            style: style_kepadatanpddk2013_3_0,
+        });
+        bounds_group.addLayer(layer_kepadatanpddk2013_3);
+        map.addLayer(layer_kepadatanpddk2013_3);
+        function pop_kepadatanpddk2012_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">kecamatan</th>\
+                        <td>' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">luas_wil</th>\
+                        <td>' + (feature.properties['luas_wil'] !== null ? Autolinker.link(String(feature.properties['luas_wil'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">penduduk</th>\
+                        <td>' + (feature.properties['penduduk'] !== null ? Autolinker.link(String(feature.properties['penduduk'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kepadatan</th>\
+                        <td>' + (feature.properties['kepadatan'] !== null ? Autolinker.link(String(feature.properties['kepadatan'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kepadatanpddk2012_4_0(feature) {
+            if (feature.properties['kepadatan'] >= 972.000000 && feature.properties['kepadatan'] <= 3575.600000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2012_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 3575.600000 && feature.properties['kepadatan'] <= 6179.200000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2012_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,204,138,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 6179.200000 && feature.properties['kepadatan'] <= 8782.800000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2012_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,141,89,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 8782.800000 && feature.properties['kepadatan'] <= 11386.400000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2012_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,74,51,1.0)',
+            }
+            }
+            if (feature.properties['kepadatan'] >= 11386.400000 && feature.properties['kepadatan'] <= 13990.000000 ) {
+                return {
+                pane: 'pane_kepadatanpddk2012_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_kepadatanpddk2012_4');
+        map.getPane('pane_kepadatanpddk2012_4').style.zIndex = 404;
+        map.getPane('pane_kepadatanpddk2012_4').style['mix-blend-mode'] = 'normal';
+        var layer_kepadatanpddk2012_4 = new L.geoJson(json_kepadatanpddk2012_4, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_kepadatanpddk2012_4',
+            onEachFeature: pop_kepadatanpddk2012_4,
+            style: style_kepadatanpddk2012_4_0,
+        });
+        bounds_group.addLayer(layer_kepadatanpddk2012_4);
+        map.addLayer(layer_kepadatanpddk2012_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'kepadatanpddk2012<br /><table><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2012_4_TidakPadat0.png" /></td><td>Tidak Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2012_4_KurangPadat1.png" /></td><td>Kurang Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2012_4_CukupPadat2.png" /></td><td>Cukup Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2012_4_Padat3.png" /></td><td>Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2012_4_SangatPadat4.png" /></td><td>Sangat Padat</td></tr></table>': layer_kepadatanpddk2012_4,'kepadatanpddk2013<br /><table><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_3_TidakPadat0.png" /></td><td>Tidak Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_3_KurangPadat1.png" /></td><td>Kurang Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_3_CukupPadat2.png" /></td><td>Cukup Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_3_Padat3.png" /></td><td>Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2013_3_SangatPadat4.png" /></td><td>Sangat Padat</td></tr></table>': layer_kepadatanpddk2013_3,'kepadatanpddk2014<br /><table><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2014_2_TidakPadat0.png" /></td><td>Tidak Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2014_2_KurangPadat1.png" /></td><td>Kurang Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2014_2_CukupPadat2.png" /></td><td>Cukup Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2014_2_Padat3.png" /></td><td>Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2014_2_SangatPadat4.png" /></td><td>Sangat Padat</td></tr></table>': layer_kepadatanpddk2014_2,'kepadatanpddk2015<br /><table><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2015_1_TidakPadat0.png" /></td><td>Tidak Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2015_1_KurangPadat1.png" /></td><td>Kurang Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2015_1_CukupPadat2.png" /></td><td>Cukup Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2015_1_Padat3.png" /></td><td>Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2015_1_SangatPadat4.png" /></td><td>Sangat Padat</td></tr></table>': layer_kepadatanpddk2015_1,'kepadatanpddk2016<br /><table><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2016_0_TidakPadat0.png" /></td><td>Tidak Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2016_0_KurangPadat1.png" /></td><td>Kurang Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2016_0_CukupPadat2.png" /></td><td>Cukup Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2016_0_Padat3.png" /></td><td>Padat</td></tr><tr><td style="text-align: center;"><img src="legend/kepadatanpddk2016_0_SangatPadat4.png" /></td><td>Sangat Padat</td></tr></table>': layer_kepadatanpddk2016_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_kepadatanpddk2016_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_kepadatanpddk2016_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_kepadatanpddk2015_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_kepadatanpddk2015_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_kepadatanpddk2014_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_kepadatanpddk2014_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_kepadatanpddk2013_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_kepadatanpddk2013_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_kepadatanpddk2012_4.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_kepadatanpddk2012_4'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_kepadatanpddk2016_0,layer_kepadatanpddk2015_1,layer_kepadatanpddk2014_2,layer_kepadatanpddk2013_3,layer_kepadatanpddk2012_4]);
+        map.on("zoomend", function(){
+            resetLabels([layer_kepadatanpddk2016_0,layer_kepadatanpddk2015_1,layer_kepadatanpddk2014_2,layer_kepadatanpddk2013_3,layer_kepadatanpddk2012_4]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_kepadatanpddk2016_0,layer_kepadatanpddk2015_1,layer_kepadatanpddk2014_2,layer_kepadatanpddk2013_3,layer_kepadatanpddk2012_4]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_kepadatanpddk2016_0,layer_kepadatanpddk2015_1,layer_kepadatanpddk2014_2,layer_kepadatanpddk2013_3,layer_kepadatanpddk2012_4]);
+        });
+        </script>
+        </section>
+
+   
+       <footer class="ftco-footer ftco-footer-2 ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Aylest Site <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Ayu Lestari</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/google-map.js"></script>
+  <script src="js/main.js"></script>
+    
+  </body>
+</html>
